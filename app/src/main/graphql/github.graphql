@@ -1,0 +1,68 @@
+query github($query: String!)
+{
+    profile: user(login: $query) {
+        avatarUrl
+        name
+        login
+        email
+        followers {
+            totalCount
+        }
+        following {
+            totalCount
+        }
+        topRepositories(first: 10, orderBy: {field: CREATED_AT, direction: ASC}) {
+            ... on RepositoryConnection {
+                nodes {
+                    createdAt
+                    primaryLanguage {
+                        name
+                    }
+                }
+            }
+            nodes {
+                name
+                owner {
+                    avatarUrl
+                    login
+                }
+                stargazers {
+                    totalCount
+                }
+            }
+        }
+        starredRepositories(first: 3) {
+            ... on StarredRepositoryConnection {
+                nodes {
+                    createdAt
+                    primaryLanguage {
+                        name
+                    }
+                }
+            }
+            nodes {
+                name
+                owner {
+                    avatarUrl
+                    login
+                }
+                stargazers {
+                    totalCount
+                }
+            }
+        }
+        pinnedItems(first: 3) {
+            nodes {
+                ... on Repository {
+                    name
+                    description
+                    id
+                    owner {
+                        avatarUrl
+                        login
+                    }
+                }
+            }
+        }
+    }
+}
